@@ -1,0 +1,7 @@
+C:\Users\lowji\source\repos\DataCollection.Server\obj\Debug\net6.0\DataCollection.Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lowji\source\repos\DataCollection.Server\obj\Debug\net6.0\DataCollection.Server.AssemblyInfoInputs.cache
+C:\Users\lowji\source\repos\DataCollection.Server\obj\Debug\net6.0\DataCollection.Server.AssemblyInfo.cs
+C:\Users\lowji\source\repos\DataCollection.Server\obj\Debug\net6.0\DataCollection.Server.csproj.CoreCompileInputs.cache
+C:\Users\lowji\source\repos\DataCollection.Server\obj\Debug\net6.0\DataCollection.Server.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\lowji\source\repos\DataCollection.Server\obj\Debug\net6.0\DataCollection.Server.RazorAssemblyInfo.cache
+C:\Users\lowji\source\repos\DataCollection.Server\obj\Debug\net6.0\DataCollection.Server.RazorAssemblyInfo.cs
