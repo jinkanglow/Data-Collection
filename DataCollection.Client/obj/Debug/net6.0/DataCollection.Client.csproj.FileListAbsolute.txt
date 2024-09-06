@@ -1,0 +1,6 @@
+C:\Users\lowji\source\repos\DataCollection.Client\obj\Debug\net6.0\DataCollection.Client.csproj.AssemblyReference.cache
+C:\Users\lowji\source\repos\DataCollection.Client\obj\Debug\net6.0\DataCollection.Client.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lowji\source\repos\DataCollection.Client\obj\Debug\net6.0\DataCollection.Client.AssemblyInfoInputs.cache
+C:\Users\lowji\source\repos\DataCollection.Client\obj\Debug\net6.0\DataCollection.Client.AssemblyInfo.cs
+C:\Users\lowji\source\repos\DataCollection.Client\obj\Debug\net6.0\DataCollection.Client.csproj.CoreCompileInputs.cache
+C:\Users\lowji\source\repos\DataCollection.Client\obj\Debug\net6.0\DataCollection.Client.MvcApplicationPartsAssemblyInfo.cache

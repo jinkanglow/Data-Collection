@@ -1,0 +1,46 @@
+﻿@page "/"
+
+<h3>Product Entry Form</h3>
+
+<EditForm Model="productEntry" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Name:</label>
+        <InputText @bind-Value="productEntry.Name" />
+    </div>
+
+    <div>
+        <label>Product Model:</label>
+        <InputText @bind-Value="productEntry.ProductModel" />
+    </div>
+
+    <div>
+        <label>Part Number:</label>
+        <InputText @bind-Value="productEntry.PartNumber" />
+    </div>
+
+    <div>
+        <label>Quantity:</label>
+        <InputNumber @bind-Value="productEntry.Quantity" />
+    </div>
+
+    <div>
+        <label>Price:</label>
+        <InputNumber @bind-Value="productEntry.Price" />
+    </div>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private ProductEntry productEntry = new ProductEntry();
+
+    private async Task HandleValidSubmit()
+    {
+        var httpClient = new HttpClient { BaseAddress = new Uri("https://yourserver.com/") };
+        await httpClient.PostAsJsonAsync("api/productentries", productEntry);
+        productEntry = new ProductEntry(); // Reset form
+    }
+}

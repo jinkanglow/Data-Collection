@@ -1,0 +1,150 @@
+﻿@page "/data-entry"
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Collections.Generic
+@using System.Threading.Tasks
+
+<style>
+    .data-entry-container {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 400px;
+        margin: auto;
+        background-color: #f9f9f9;
+    }
+
+    .data-entry-container h3 {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .submit-button:hover {
+        background-color: #0056b3;
+    }
+
+    .sync-button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .sync-button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<div class="data-entry-container">
+    <h3>Data Collection</h3>
+    <EditForm Model="@productEntry" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label>Name:</label>
+            <InputText @bind-Value="productEntry.Name" placeholder="Enter Name" />
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <InputText @bind-Value="productEntry.Email" placeholder="Enter Email" />
+        </div>
+
+        <div class="form-group">
+            <label>Phone:</label>
+            <InputText @bind-Value="productEntry.Phone" placeholder="Enter Phone" />
+        </div>
+
+        <button type="submit" class="submit-button">Submit</button>
+    </EditForm>
+
+    <button @onclick="SynchronizeData" class="sync-button">Synchronize Data</button>
+</div>
+
+@code {
+    private ProductEntry productEntry = new ProductEntry();
+    private List<ProductEntry> offlineEntries = new List<ProductEntry>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch offline entries from local storage
+        offlineEntries = await LocalStorage.GetItemAsync<List<ProductEntry>>("offlineEntries") ?? new List<ProductEntry>();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        // Check if online
+        if (await HttpClientHelper.IsOnline())
+        {
+            // Send data to the server
+            await Http.PostAsJsonAsync("api/data", productEntry);
+        }
+        else
+        {
+            // Add entry to offline entries list
+            offlineEntries.Add(productEntry);
+
+            // Save offline entries to local storage
+            await LocalStorage.SetItemAsync("offlineEntries", offlineEntries);
+        }
+
+        // Clear the form
+        productEntry = new ProductEntry();
+    }
+
+    private async Task SynchronizeData()
+    {
+        // Check if online
+        if (await HttpClientHelper.IsOnline())
+        {
+            // Send offline entries to the server
+            foreach (var entry in offlineEntries)
+            {
+                await Http.PostAsJsonAsync("api/data", entry);
+            }
+
+            // Clear offline entries after successful synchronization
+            offlineEntries.Clear();
+            await LocalStorage.SetItemAsync("offlineEntries", offlineEntries);
+        }
+    }
+
+    public class ProductEntry
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+    }
+}
